@@ -1,0 +1,83 @@
+/* =====================================================
+   LIST OF DAX MEASURES
+   ===================================================== */
+
+-- Total Sales
+Total Sales =
+SUM(order_items[price]) + SUM(order_items[freight_value])
+
+
+-- Total Orders
+Total Orders =
+DISTINCTCOUNT(orders[order_id])
+
+
+-- Average Order Value (AOV)
+AOV =
+DIVIDE([Total Sales], [Total Orders])
+
+
+-- Previous Month Sales
+Previous Month Sales =
+CALCULATE(
+    [Total Sales],
+    DATEADD(Calendar[Date], -1, MONTH)
+)
+
+
+-- Month-over-Month Growth %
+MoM Growth % =
+DIVIDE(
+    [Total Sales] - [Previous Month Sales],
+    [Previous Month Sales]
+)
+
+
+-- Previous Month Orders
+Previous Month Orders =
+CALCULATE(
+    [Total Orders],
+    DATEADD(Calendar[Date], -1, MONTH)
+)
+
+
+-- Orders MoM %
+Orders MoM % =
+DIVIDE(
+    [Total Orders] - [Previous Month Orders],
+    [Previous Month Orders]
+)
+
+
+-- Previous Month AOV
+Previous Month AOV =
+CALCULATE(
+    [AOV],
+    DATEADD(Calendar[Date], -1, MONTH)
+)
+
+
+-- AOV MoM %
+AOV MoM % =
+DIVIDE(
+    [AOV] - [Previous Month AOV],
+    [Previous Month AOV]
+)
+
+
+-- Customer Total Sales
+Customer Total Sales =
+CALCULATE(
+    [Total Sales],
+    ALLEXCEPT(customers, customers[customer_id])
+)
+
+
+-- Customer Segment
+Customer Segment =
+SWITCH(
+    TRUE(),
+    [Customer Total Sales] > 1000, "High Value",
+    [Customer Total Sales] > 300, "Medium Value",
+    "Low Value"
+)
