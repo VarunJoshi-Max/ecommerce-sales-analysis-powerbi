@@ -1,4 +1,4 @@
-# E-Commerce Sales Analysis Dashboard
+# E-Commerce Sales Analysis & Executive Dashboard
 
 ## Project Overview
 This project analyzes e-commerce sales data to evaluate business performance, identify trends, and support executive decision-making using Power BI.
